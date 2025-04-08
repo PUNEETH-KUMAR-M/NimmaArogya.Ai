@@ -25,5 +25,93 @@
     <div class="bot" style="height: 50px; width: 50px;">
 
     </div>
+    <div id="root"></div>
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script type="module" src="/src/main.tsx"></script>
+    <div id="chatbot-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+      <button
+        id="chatbot-toggle"
+        style="
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          font-size: 24px;
+          cursor: pointer;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          transition: box-shadow 0.3s ease;
+        "
+        title="Chat with us"
+      >
+        💬
+      </button>
+    
+      <div
+        id="chatbot"
+        style="
+          display: none;
+          position: absolute;
+          bottom: 80px;
+          right: 0;
+          width: 350px;
+          height: 500px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          background-color: white;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+          transform: translateY(20px);
+          opacity: 0;
+          transition: transform 0.4s ease, opacity 0.4s ease;
+        "
+      >
+        <iframe
+          src="https://your-chatbot-url.com"
+          style="width: 100%; height: 100%; border: none; border-radius: 10px;"
+          title="Chatbot"
+        ></iframe>
+      </div>
+    </div>
+    
+    <script>
+      const chatbotToggle = document.getElementById('chatbot-toggle');
+      const chatbot = document.getElementById('chatbot');
+    
+      chatbotToggle.addEventListener('click', () => {
+        const isVisible = chatbot.style.display === 'block';
+    
+        if (!isVisible) {
+          chatbot.style.display = 'block';
+          setTimeout(() => {
+            chatbot.style.transform = 'translateY(0)';
+            chatbot.style.opacity = '1';
+          }, 10);
+          chatbotToggle.style.boxShadow = '0 0 20px #007bff';
+        } else {
+          chatbot.style.transform = 'translateY(20px)';
+          chatbot.style.opacity = '0';
+          chatbotToggle.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+          setTimeout(() => {
+            chatbot.style.display = 'none';
+          }, 400);
+        }
+      });
+    
+      // Optional: Close chatbot when clicking outside
+      document.addEventListener('click', (event) => {
+        if (!chatbot.contains(event.target) && event.target !== chatbotToggle) {
+          chatbot.style.transform = 'translateY(20px)';
+          chatbot.style.opacity = '0';
+          chatbotToggle.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+          setTimeout(() => {
+            chatbot.style.display = 'none';
+          }, 400);
+        }
+      });
+    </script>
+    
   </body>
 </html>
