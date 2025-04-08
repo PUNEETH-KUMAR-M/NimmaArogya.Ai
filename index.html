@@ -22,17 +22,20 @@
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
-    <div class="bot" style="height: 50px; width: 50px;">
-
-    </div>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-    <div id="chatbot-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-      <button
-        id="chatbot-toggle"
-        style="
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Gemini Chatbot</title>
+      <style>
+        #chatbot-container {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          z-index: 999;
+        }
+    
+        #chatbot-toggle {
           background-color: #007bff;
           color: white;
           border: none;
@@ -42,76 +45,163 @@
           font-size: 24px;
           cursor: pointer;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-          transition: box-shadow 0.3s ease;
-        "
-        title="Chat with us"
-      >
-        💬
-      </button>
+        }
     
-      <div
-        id="chatbot"
-        style="
+        #chatbot {
           display: none;
-          position: absolute;
-          bottom: 80px;
-          right: 0;
+          position: fixed;
+          bottom: 100px;
+          right: 20px;
           width: 350px;
-          height: 500px;
-          border: 1px solid #ccc;
-          border-radius: 10px;
-          background-color: white;
+          height: 520px;
+          background: white;
+          border-radius: 15px;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+          font-family: Arial, sans-serif;
           overflow: hidden;
-          transform: translateY(20px);
-          opacity: 0;
-          transition: transform 0.4s ease, opacity 0.4s ease;
-        "
-      >
-        <iframe
-          src="https://your-chatbot-url.com"
-          style="width: 100%; height: 100%; border: none; border-radius: 10px;"
-          title="Chatbot"
-        ></iframe>
+          z-index: 1000;
+        }
+    
+        #chat-header {
+          padding: 16px;
+          display: flex;
+          align-items: center;
+          border-bottom: 1px solid #eee;
+        }
+    
+        #chat-header img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+    
+        #chat-window {
+          height: 370px;
+          padding: 16px;
+          overflow-y: auto;
+        }
+    
+        .user-msg, .bot-msg {
+          padding: 10px 14px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+          max-width: 80%;
+          line-height: 1.4;
+        }
+    
+        .user-msg {
+          background: #007bff;
+          color: white;
+          margin-left: auto;
+        }
+    
+        .bot-msg {
+          background: #f1f1f1;
+        }
+    
+        #chat-input {
+          padding: 10px;
+          border-top: 1px solid #eee;
+          display: flex;
+        }
+    
+        #user-input {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+        }
+    
+        #send-btn {
+          padding: 10px 15px;
+          margin-left: 5px;
+          background: #007bff;
+          color: white;
+          border: none;
+          border-radius: 8px;
+        }
+      </style>
+    </head>
+    <body>
+    
+    <!-- Chat Icon -->
+    <div id="chatbot-container">
+      <button id="chatbot-toggle" title="Chat with us">💬</button>
+    </div>
+    
+    <!-- Chat Window -->
+    <div id="chatbot">
+      <div id="chat-header">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" />
+        <div>
+          <strong>Gemini Bot</strong><br />
+          <small>Let's chat</small>
+        </div>
+      </div>
+    
+      <div id="chat-window">
+        <div class="bot-msg">Hello! 👋 Need help with something? I'm powered by Gemini AI.</div>
+      </div>
+    
+      <div id="chat-input">
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button id="send-btn">Send</button>
       </div>
     </div>
     
     <script>
       const chatbotToggle = document.getElementById('chatbot-toggle');
       const chatbot = document.getElementById('chatbot');
+      const chatWindow = document.getElementById('chat-window');
+      const userInput = document.getElementById('user-input');
+      const sendBtn = document.getElementById('send-btn');
+    
+      const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE'; // <-- Replace this
     
       chatbotToggle.addEventListener('click', () => {
-        const isVisible = chatbot.style.display === 'block';
-    
-        if (!isVisible) {
-          chatbot.style.display = 'block';
-          setTimeout(() => {
-            chatbot.style.transform = 'translateY(0)';
-            chatbot.style.opacity = '1';
-          }, 10);
-          chatbotToggle.style.boxShadow = '0 0 20px #007bff';
-        } else {
-          chatbot.style.transform = 'translateY(20px)';
-          chatbot.style.opacity = '0';
-          chatbotToggle.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-          setTimeout(() => {
-            chatbot.style.display = 'none';
-          }, 400);
-        }
+        chatbot.style.display = chatbot.style.display === 'block' ? 'none' : 'block';
       });
     
-      // Optional: Close chatbot when clicking outside
-      document.addEventListener('click', (event) => {
-        if (!chatbot.contains(event.target) && event.target !== chatbotToggle) {
-          chatbot.style.transform = 'translateY(20px)';
-          chatbot.style.opacity = '0';
-          chatbotToggle.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-          setTimeout(() => {
-            chatbot.style.display = 'none';
-          }, 400);
-        }
+      sendBtn.addEventListener('click', sendMessage);
+      userInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') sendMessage();
       });
+    
+      async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+    
+        appendMessage(message, 'user');
+        userInput.value = '';
+    
+        const geminiRes = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: message }] }]
+            })
+          }
+        );
+    
+        const data = await geminiRes.json();
+        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't understand that.";
+        appendMessage(reply, 'bot');
+      }
+    
+      function appendMessage(text, sender) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = sender === 'user' ? 'user-msg' : 'bot-msg';
+        msgDiv.innerText = text;
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
     </script>
+    
+    </body>
+    </html>
     
   </body>
 </html>
