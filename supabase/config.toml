@@ -1,1 +1,25 @@
-project_id = "btfltugyiniesjnbtfwi"
+<script>
+    // Create a new button element
+    var sosButton = document.createElement('button');
+    sosButton.id = 'sosButton';
+    sosButton.textContent = 'SOS - Call Ambulance';
+    sosButton.style.backgroundColor = 'red';
+    sosButton.style.color = 'white';
+    sosButton.style.padding = '10px';
+    sosButton.style.border = 'none';
+    sosButton.style.borderRadius = '5px';
+    sosButton.style.cursor = 'pointer';
+    sosButton.style.position = 'fixed'; // Fixed position
+    sosButton.style.bottom = '20px'; // Position from the bottom
+    sosButton.style.right = '20px'; // Position from the right
+
+    // Add click event listener to the button
+    sosButton.addEventListener('click', function() {
+        // Replace with the actual ambulance service number or API call
+        alert('Calling ambulance service...');
+        // Example: window.location.href = 'tel:+1234567890';
+    });
+
+    // Append the button to the body
+    document.body.appendChild(sosButton);
+</script>project_id = "btfltugyiniesjnbtfwi"
